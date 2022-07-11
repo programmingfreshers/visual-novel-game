@@ -1,24 +1,49 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Navbar from "./components/Navbar";
+import {
+  useParams,
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Routes,
+} from "react-router-dom";
+import Catalogue from "./components/Catalogue";
+import StoryBoard from "./components/StoryBoard";
+import CreatePage from "./components/CreatePage";
+const storyBook = [
+  {
+    storyName: "Forest",
+    storyDescription:
+      "in a forest of dangerous animals and poisonous plants , your decisions decide your fate , choose wisely !",
+    storyID: "2163174681",
+  },
+  {
+    storyName: "My waifu",
+    storyDescription:
+      "your waifu came to meet you what you shall say , your decisions decide your fate , choose wisely !",
+    storyID: "2163100681",
+  },
+];
+const story = {
+  storyName: "Forest",
+  storyDescription:
+    "in a forest of dangerous animals and poisonous plants , your decisions decide your fate , choose wisely !",
+  storyID: "2163174681",
+};
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Router>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Catalogue storyBook={storyBook} />}></Route>
+          <Route path="/story/:storyID" element={<StoryBoard />}></Route>
+
+          <Route path="/create" element={<CreatePage />}></Route>
+        </Routes>
+      </Router>
+    </>
   );
 }
 
