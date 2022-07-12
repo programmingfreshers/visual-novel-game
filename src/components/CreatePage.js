@@ -8,7 +8,9 @@ function CreatePage() {
           className="p-2"
           style={{ backgroundColor: "yellow", width: "25%", height: "100%" }}
         >
-          Flex item snfks hdfhskjdh fj hsjdhfglsdhsj
+          <div>
+            Story Line
+          </div>
         </div>
         <div
           className="p-2 flex-grow-1"
@@ -18,7 +20,9 @@ function CreatePage() {
             height: "100px",
           }}
         >
-          Flex item
+          <div>
+            canvas
+          </div>
         </div>
       </div>
     </>
