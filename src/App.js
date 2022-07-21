@@ -10,6 +10,8 @@ import {
 import Catalogue from "./components/Catalogue";
 import StoryBoard from "./components/StoryBoard";
 import CreatePage from "./components/CreatePage";
+import Pricing from "./components/Pricing";
+import StoryBoard2 from "./components/StoryBoard2";
 const storyBook = [
   {
     storyName: "Forest",
@@ -39,8 +41,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Catalogue storyBook={storyBook} />}></Route>
           <Route path="/story/:storyID" element={<StoryBoard />}></Route>
-
+          <Route path="/storyboard2/:storyID" element={<StoryBoard2/>}></Route>
           <Route path="/create" element={<CreatePage />}></Route>
+          <Route path="/pricing" element={<Pricing/>}></Route>
         </Routes>
       </Router>
     </>

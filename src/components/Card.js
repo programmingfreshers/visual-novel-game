@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 function Card(props) {
   return (
     <>
-      <Link to={`/story/${props.story.storyID}`} style={{ textDecoration: 'none',color:'black'}}>
+      <Link to={`/storyboard2/${props.story.storyID}`} style={{ textDecoration: 'none',color:'black'}}>
         <div
           className="card d-inline-flex p-2 mx-3 my-3"
           style={{ width: " 25rem" }}
