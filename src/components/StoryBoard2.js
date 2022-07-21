@@ -4,26 +4,6 @@ import roarSound from "../Assets/sounds/tiger-roar.mp3";
 import { useParams } from "react-router-dom";
 
 function StoryBoard2() {
-  const onkeydown = (e) => {
-    console.log(e.key);
-    if (e.key === "Enter" && textStatus === true) {
-      if (decisionState === "next" && textStatus === true) {
-        setLevel(level + 1);
-        setText(storyTimeline[level + 1].text);
-        setStoryImage(storyTimeline[level + 1].imageURL);
-        setTextStatus(false);
-        setDecisions(storyTimeline[level + 1].decisions);
-        setStoryAudio(storyTimeline[level + 1].audio)
-      }
-    } else if (e.key === "Home") {
-      setLevel(0);
-      setText(storyTimeline[0].text);
-      setDecisions(storyTimeline[0].decisions);
-      setDecisionState("next");
-      setStoryImage(storyTimeline[0].imageURL);
-    }
-  };
-  document.onkeydown = onkeydown;
   const storyTimeline = [
     {
       level: 0,
@@ -54,7 +34,7 @@ function StoryBoard2() {
     {
       level: 3,
       text: "lions are faster than you, it chased ate you ",
-      decisions: ["re-start game"],
+      decisions: ["game ended"],
       decisionState: "run randomly",
       imageURL:
         "https://c4.wallpaperflare.com/wallpaper/178/441/133/tigers-tiger-bushes-grass-wallpaper-preview.jpg",
@@ -63,7 +43,7 @@ function StoryBoard2() {
     {
       level: 3,
       text: "the tiger got bored after some time and moved away you won !",
-      decisions: ["re-start game"],
+      decisions: ["game ended"],
       decisionState: "climb a tree and wait",
       imageURL:
         "https://ak.picdn.net/shutterstock/videos/1054585877/thumb/8.jpg?ip=x480",
@@ -72,7 +52,7 @@ function StoryBoard2() {
     {
       level: 3,
       text: "the tiger noticed you after some time and ate you away ",
-      decisions: ["re-start game"],
+      decisions: ["game ended"],
       decisionState: "stand still",
       imageURL:
         "https://c4.wallpaperflare.com/wallpaper/178/441/133/tigers-tiger-bushes-grass-wallpaper-preview.jpg",
@@ -91,10 +71,10 @@ function StoryBoard2() {
   const { storyID } = useParams();
 
   useEffect(() => {
+    setTextStatus(false);
     var box = document.getElementById("speaking-box");
     const textLength = text.length + 1;
     let i = 0;
-
     const writter = setInterval(() => {
       if (i === textLength) {
         setTextStatus(true);
@@ -107,29 +87,38 @@ function StoryBoard2() {
   }, [text]);
 
   const selectedMessage = (event) => {
-    var msg = event.target.value;
-    setDecisionState(msg);
+    var cmd = event.target.value;
+    console.log(cmd + " : " + level);
+    setDecisionState(cmd);
     storyTimeline.map((elem) => {
-      if (elem.level === level) {
-        if (elem.decisionState === msg) {
-          setText(elem.text);
-          setDecisions(elem.decisions);
-          setStoryImage(elem.imageURL);
-          setStoryAudio(elem.audio);
-          console.log(
-            "block details : " +
-              elem.level +
-              " : " +
-              elem.decisionState +
-              " : " +
-              elem.decisions
-          );
-        }
+      if (elem.decisionState === cmd && elem.level === level+1) {
+        setText(elem.text);
+        setDecisions(elem.decisions);
+        setStoryImage(elem.imageURL);
+        setStoryAudio(elem.audio);
+        setTextStatus(true);
+        setLevel(level + 1);
       }
     });
-    setLevel(1 + level);
-    if (msg === "re-start game") {
-      console.log("re-start game");
+  };
+
+  const onkeydown = (e) => {
+    console.log(e.key);
+    console.log(decisions);
+    if (
+      e.key === " " &&
+      textStatus === true &&
+      storyTimeline[level].decisions.length === 1 &&
+      storyTimeline[level].decisions[0] !== 'game ended'
+    ) {
+      console.log("Level : " + level);
+      setText(storyTimeline[level + 1].text);
+      setStoryImage(storyTimeline[level + 1].imageURL);
+      setDecisions(storyTimeline[level + 1].decisions);
+      setStoryAudio(storyTimeline[level + 1].audio);
+      setTextStatus(false);
+      setLevel(level + 1);
+    } else if (e.key === "Home") {
       setLevel(0);
       setText(storyTimeline[0].text);
       setDecisions(storyTimeline[0].decisions);
@@ -137,6 +126,7 @@ function StoryBoard2() {
       setStoryImage(storyTimeline[0].imageURL);
     }
   };
+  document.onkeydown = onkeydown;
 
   return (
     <>
@@ -173,7 +163,7 @@ function StoryBoard2() {
         >
           <h5 id="speaking-box"></h5>
         </div>
-        <Sound url={storyAudio} playStatus={Sound.status.PLAYING}></Sound>
+        {/* <Sound url={storyAudio} playStatus={Sound.status.PLAYING}></Sound> */}
         <div
           style={{
             position: "absolute",
@@ -201,7 +191,6 @@ function StoryBoard2() {
                     }}
                     value={elem}
                     onClick={selectedMessage}
-                    autoFocus="true"
                   >
                     {elem}
                   </button>
